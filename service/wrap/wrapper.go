@@ -1,8 +1,8 @@
-package server
+package wrap
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/xiaohuashifu/go_service_req_rsp_errcode_demo/service/result"
+	"github.com/jiaxwu/go_service_req_rsp_errcode_demo/service/common"
 	"reflect"
 )
 
@@ -14,7 +14,7 @@ func WrapService(service interface{}) func(*gin.Context) {
 		reqStructType := reqPointType.Elem()
 		req := reflect.New(reqStructType)
 		if err := c.ShouldBindJSON(req.Interface()); err != nil {
-			result.Failure(c, result.ErrCodeInvalidParameter)
+			common.Failure(c, common.ErrCodeInvalidParameter)
 			return
 		}
 
@@ -24,9 +24,9 @@ func WrapService(service interface{}) func(*gin.Context) {
 
 		// 结果处理
 		if !rets[1].IsNil() {
-			result.Failure(c, rets[1].Interface().(result.Error))
+			common.Failure(c, rets[1].Interface().(*common.ErrCode))
 			return
 		}
-		result.Success(c, rets[0].Interface())
+		common.Success(c, rets[0].Interface())
 	}
 }

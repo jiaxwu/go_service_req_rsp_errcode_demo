@@ -1,4 +1,4 @@
-module github.com/xiaohuashifu/go_service_req_rsp_errcode_demo
+module github.com/jiaxwu/go_service_req_rsp_errcode_demo
 
 go 1.17
 
